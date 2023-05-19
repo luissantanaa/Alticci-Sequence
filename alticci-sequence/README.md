@@ -1,61 +1,42 @@
-# alticci-sequence
+# Alticci-Sequence
 
-This project uses Quarkus, the Supersonic Subatomic Java Framework.
+## Description
 
-If you want to learn more about Quarkus, please visit its website: https://quarkus.io/ .
+This repository contains a Quarkus application that calculates the Alticci sequence for a given number. The sequence can be defined as the following:
+- n=0 => a(0) = 0
+- n=1 => a(1) = 1
+- n=2 => a(2) = 1
+- n>2 => a(n) = a(n-3) + a(n-2)
 
-## Running the application in dev mode
+The application contains the endpoint **{...}/api/alticci/{value}** that can be used to calculate the sequence for the given value.
+Example:
+- http://localhost:8080/api/alticci/10
 
-You can run your application in dev mode that enables live coding using:
-```shell script
-./mvnw compile quarkus:dev
-```
+It also contains **{...}/docs** which opens an OpenAPI UI page where the previous endpoint can be tested.
 
-> **_NOTE:_**  Quarkus now ships with a Dev UI, which is available in dev mode only at http://localhost:8080/q/dev/.
+## Algorithm
 
-## Packaging and running the application
+The sequence algorithm was implemented using recursion. 
 
-The application can be packaged using:
-```shell script
-./mvnw package
-```
-It produces the `quarkus-run.jar` file in the `target/quarkus-app/` directory.
-Be aware that it’s not an _über-jar_ as the dependencies are copied into the `target/quarkus-app/lib/` directory.
+    public int calc_alticci_seq(int value) {
+        
+        //Method implements a recursive method to calculate the sequence
+        //Stopping conditions for the algorithm
+        if(value == 0) {
+            return 0;
+        } else if(value == 1 || value == 2) {
+            return 1;
+        }
 
-The application is now runnable using `java -jar target/quarkus-app/quarkus-run.jar`.
+        //adds the results of the intermediate calculations and calls the next iteration
+        return calc_alticci_seq(value-3) + calc_alticci_seq(value-2);
+    }
+   
+## Caching
 
-If you want to build an _über-jar_, execute the following command:
-```shell script
-./mvnw package -Dquarkus.package.type=uber-jar
-```
+This request makes use of the caching functions of quarkus in order to improve the performance of the requests.
 
-The application, packaged as an _über-jar_, is now runnable using `java -jar target/*-runner.jar`.
+## How to run
 
-## Creating a native executable
-
-You can create a native executable using: 
-```shell script
-./mvnw package -Pnative
-```
-
-Or, if you don't have GraalVM installed, you can run the native executable build in a container using: 
-```shell script
-./mvnw package -Pnative -Dquarkus.native.container-build=true
-```
-
-You can then execute your native executable with: `./target/alticci-sequence-1.0.0-SNAPSHOT-runner`
-
-If you want to learn more about building native executables, please consult https://quarkus.io/guides/maven-tooling.
-
-## Related Guides
-
-- RESTEasy Classic ([guide](https://quarkus.io/guides/resteasy)): REST endpoint framework implementing Jakarta REST and more
-- Cache ([guide](https://quarkus.io/guides/cache)): Enable application data caching in CDI beans
-
-## Provided Code
-
-### RESTEasy JAX-RS
-
-Easily start your RESTful Web Services
-
-[Related guide section...](https://quarkus.io/guides/getting-started#the-jax-rs-resources)
+The application is dockerized, so in order to run the application simply navigate to the root directory of project and run the followind command:
+-  docker run -i --rm --name alticci-seq -p 8080:8080 quarkus/alticci-sequence-jvm
