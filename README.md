@@ -38,5 +38,5 @@ This request makes use of the caching functions of quarkus in order to improve t
 
 ## How to run
 
-The application is dockerized, so in order to run the application simply navigate to the root directory of project and run the followind command:
+The application is dockerized, so in order to run the application simply navigate to the root directory of project (Alticci-Sequence\alticci-sequence) and run the followind command:
 -  docker run -i --rm --name alticci-seq -p 8080:8080 quarkus/alticci-sequence-jvm
