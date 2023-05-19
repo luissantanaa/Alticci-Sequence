@@ -30,12 +30,12 @@ public class AlticciSequence {
         } 
 
         //Uses auxiliary method to calculate the sequence
-        int seq_value = calc_alticci_seq(value);
+        long seq_value = calc_alticci_seq(value);
         return Response.ok(seq_value).build();
     }
 
     @CacheResult(cacheName = "seq-cache")   //Line creates a cache called "seq-cache" which stores the results of the method to improve performance
-    public int calc_alticci_seq(int value) {
+    public long calc_alticci_seq(int value) {
         
         //Method implements a recursive method to calculate the sequence
         //Stopping conditions for the algorithm
